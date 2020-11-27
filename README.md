@@ -1,4 +1,4 @@
-#SEW5: Laravel Invoice Management
+# SEW5: Laravel Invoice Management
 
 This is a school based project to learn laravel (from a C# ASP.net background) and primarily exists to help out others struggling with the framework.
 

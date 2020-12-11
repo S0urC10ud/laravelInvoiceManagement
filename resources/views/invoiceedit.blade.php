@@ -1,33 +1,54 @@
-<!doctype html>
-<html lang="de">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
-<form action="{{ isset($invoice) ? route('invoice.update', [$invoice->id]) : route('invoice.store') }}" method="post">
-    @csrf
-    @if(isset($invoice))
-        @method('PUT')
-    @endif
-    <br>
+@extends('app')
+@if(isset($invoice))
+    @section('title','Edit')
+@else
+    @section('title','Create')
+@endif
 
-    <label for="name">Name</label>
-    <input name="name" maxlength="30" value="{{ isset($invoice) ? $invoice->Name : "" }}">
+@section('content')
+    <div class="container pt-3" style="max-width: 40rem;">
+        <form action="{{ isset($invoice) ? route('invoice.update', [$invoice->id]) : route('invoice.store') }}"
+              method="post">
+            @csrf
+            @if(isset($invoice))
+                @method('PUT')
+            @endif
+            <br>
+            <div class="form-row">
+                @if(isset($invoice))
+                <div class="form-group col-md-4 mb-4">
+                    <label for="id">Id</label>
+                    <input name="id" maxlength="30" type="number" class="form-control"
+                           value="{{ isset($invoice) ? $invoice->id : "" }}"
+                           readonly>
+                </div>
+                @endif
+                <div class="form-group {{isset($invoice) ? "col-md-8 mb-8" : "col-md-12 mb-12"}}">
+                    <label for="name">Name</label>
+                    <input name="name" maxlength="30" type="text" class="form-control"
+                           value="{{ isset($invoice) ? $invoice->Name : "" }}">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4 mb-4">
+                    <label for="pricenet">PriceNet</label>
+                    <input name="pricenet" type="number" step="0.01" maxlength="30" class="form-control"
+                           value="{{ isset($invoice) ? $invoice->PriceNet : "" }}">
+                </div>
 
-    <label for="pricenet">PriceNet</label>
-    <input name="pricenet" maxlength="30" value="{{ isset($invoice) ? $invoice->PriceNet : "" }}">
+                <div class="form-group col-md-4 mb-4">
+                    <label for="pricegross">PriceGross</label>
+                    <input name="pricegross" type="number" step="0.01" maxlength="30" class="form-control"
+                           value="{{ isset($invoice) ? $invoice->PriceGross : "" }}">
+                </div>
 
-    <label for="pricegross">PriceGross</label>
-    <input name="pricegross" maxlength="30" value="{{ isset($invoice) ? $invoice->PriceGross : "" }}">
-
-    <label for="vat">Vat</label>
-    <input name="vat" maxlength="30" value="{{ isset($invoice) ? $invoice->Vat : "" }}">
-
-    <input type="submit" value="Rechnung erstellen">
-</form>
-</body>
-</html>
+                <div class="form-group col-md-4 mb-4">
+                    <label for="vat">Vat</label>
+                    <input name="vat" type="number" step="0.01" maxlength="30" class="form-control"
+                           value="{{ isset($invoice) ? $invoice->Vat : "" }}">
+                </div>
+            </div>
+            <input type="submit" class="btn btn-dark" value="{{isset($invoice) ?  "Edit invoice" : "Create invoice"}}">
+        </form>
+    </div>
+@endsection

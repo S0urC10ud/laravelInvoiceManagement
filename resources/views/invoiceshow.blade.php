@@ -1,37 +1,63 @@
-<!doctype html>
-<html lang="de">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Showing an Invoice</title>
-</head>
-<body>
-<table>
-    <tr>
-        <th>Name</th>
-        <th>PriceNet</th>
-        <th>PriceGross</th>
-        <th>Vat</th>
-        <th>UserClearing</th>
-        <th>ClearingDate</th>
-        <th>Actions</th>
-    </tr>
-    <tr>
-        <td>{{$invoice->Name}}</td>
-        <td>{{$invoice->PriceNet}}</td>
-        <td>{{$invoice->PriceGross}}</td>
-        <td>{{$invoice->Vat}}</td>
-        <td>{{$invoice->UserClearing}}</td>
-        <td>
-            <form action="{{ url('/invoice', ['id' => $invoice->id]) }}" method="post">
-                <input class="btn btn-default" type="submit" value="Delete"/>
-                @method('delete')
-                @csrf
-            </form>
-        </td>
-    </tr>
-</table>
-</body>
-</html>
+@extends('app')
+@section('title','Show')
+@section('customStyles')
+<style>
+    #footer{
+        position: fixed !important;
+        bottom: 0;
+        width: 100%;
+    }
+</style>
+@endsection
+@section('content')
+
+    @php
+        $formatter = new NumberFormatter('de_DE',  NumberFormatter::CURRENCY)
+    @endphp
+
+    <div class="container pt-3" style="max-width: 40rem;">
+        <br>
+        <div class="row justify-content-between">
+            <div class="form-group col-md-4 mb-4 listedShowElement">
+                Id <br/>
+                <span>{{$invoice->id}}</span>
+            </div>
+            <div class="form-group {{isset($invoice) ? "col-md-7 mb-7" : "col-md-11 mb-11"}} listedShowElement">
+                Name <br/>
+                <span>{{$invoice->Name}}</span>
+            </div>
+        </div>
+        <div class="row justify-content-between">
+            <div class="form-group col-md-4 mb-4 listedShowElement">
+                PriceNet<br/>
+                <span>{{$formatter->formatCurrency($invoice->PriceNet,'EUR')}}</span>
+            </div>
+
+            <div class="form-group col-md-4 mb-4 listedShowElement">
+                PriceGross<br/>
+                <span>{{$formatter->formatCurrency($invoice->PriceGross,'EUR')}}</span>
+            </div>
+
+            <div class="form-group col-md-3 mb-3 listedShowElement">
+                VAT<br/>
+                <span>{{$formatter->formatCurrency($invoice->Vat,'EUR')}}</span>
+            </div>
+        </div>
+
+        <div class="row justify-content-between">
+            <div class="form-group col-md-6 mb-6 listedShowElement">
+                User clearing<br/>
+                <span>{{$invoice->UserClearing}}</span>
+            </div>
+
+            <div class="form-group col-md-5 mb-6 listedShowElement">
+                Clearing date<br/>
+                <span>{{$invoice->ClearingDate}}</span>
+            </div>
+        </div>
+        <div class="row float-right">
+            <a class="btn btn-dark" style="margin-right: 1rem" href="{{route('invoice.edit',$invoice->id)}}">Edit</a>
+            <button class="btn btn-danger" onclick="deleteEntry({{$invoice->id}})">Delete</button>
+        </div>
+    </div>
+@endsection

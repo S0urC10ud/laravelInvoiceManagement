@@ -118,5 +118,8 @@
     <orderEntry type="library" name="sweetalert2" level="application" />
     <orderEntry type="library" name="axios" level="application" />
     <orderEntry type="library" name="jquery" level="application" />
+    <orderEntry type="library" name="twitter-bootstrap" level="application" />
+    <orderEntry type="library" name="jquery-3.3.1.slim" level="application" />
+    <orderEntry type="library" name="bootstrap" level="application" />
   </component>
 </module>

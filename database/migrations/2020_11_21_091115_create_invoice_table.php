@@ -16,10 +16,10 @@ class CreateInvoiceTable extends Migration
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
             $table->string("Name");
-            $table->double("PriceNet")->nullable();
-            $table->double("PriceGross")->nullable();
-            $table->double("Vat")->nullable();
-            $table->string("UserClearing")->nullable();
+            $table->double("PriceNet");
+            $table->double("PriceGross");
+            $table->double("Vat");
+            $table->string("UserClearing")->default("unknown");
             $table->dateTime("ClearingDate")->nullable();
             $table->timestamps();
         });

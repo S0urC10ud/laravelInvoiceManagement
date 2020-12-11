@@ -11,13 +11,13 @@ class InvoiceController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * //view mit der liste zurückgeben
-     * //neuen View erstellen - mit Blade-Syntax anzeigen
+     * view mit der liste zurückgeben
+     * neuen View erstellen - mit Blade-Syntax anzeigen
      *
-     * //Daten selektieren
+     * Daten selektieren
      *
      *
-     * //Daten im with-Methodencall die Daten einfügen
+     * Daten im with-Methodencall die Daten einfügen
      * @return \Illuminate\Http\Response
      */
 
@@ -99,8 +99,6 @@ class InvoiceController extends Controller
         $invoice->PriceNet = $request->pricenet;
         $invoice->PriceGross = $request->pricegross;
         $invoice->Vat = $request->vat;
-        $invoice->UserClearing = null;
-        $invoice->ClearingDate = null;
 
         if (Invoice::where("id", $invoice->id)->exists()) {
             $invoice->save();

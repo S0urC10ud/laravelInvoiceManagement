@@ -57,6 +57,7 @@ class InvoiceController extends Controller
         $invoice->PriceGross = $request->pricegross;
         $invoice->Vat = $request->vat;
         $invoice->UserClearing = "unknown";
+        $invoice->ClearingDate = null;
         $invoice->save();
         return redirect()->action([InvoiceController::class, 'index']); //oder redirect()->route('invoice')
     }

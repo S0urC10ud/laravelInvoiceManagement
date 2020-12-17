@@ -1,4 +1,4 @@
-<html>
+<html lang="en">
 <head>
     <style>
         button, input {
@@ -32,7 +32,7 @@
 
         #main {
             overflow: auto;
-            padding-bottom: 3em;
+            padding-bottom: 5em;
         }
 
 
@@ -71,9 +71,8 @@
                 cancelButtonText: 'Nope',
                 showCancelButton: true
             }).then((result) => {
-                if (!result.isConfirmed) {
+                if (!result.isConfirmed)
                     return;
-                }
                 axios.delete('/invoice/' + buttonId, {
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

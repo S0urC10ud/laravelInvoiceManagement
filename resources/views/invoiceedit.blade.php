@@ -48,7 +48,11 @@
                            value="{{ isset($invoice) ? $invoice->Vat : "" }}">
                 </div>
             </div>
-            <input type="submit" class="btn btn-dark" value="{{isset($invoice) ?  "Edit invoice" : "Create invoice"}}">
+
+            <a href="{{route('invoice.index')}}">
+                <div class="btn btn-outline-danger float-left">Cancel</div>
+            </a>
+            <input type="submit" class="btn btn-dark float-right" value="{{isset($invoice) ?  "Edit invoice" : "Create invoice"}}">
         </form>
     </div>
 @endsection

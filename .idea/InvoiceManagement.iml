@@ -121,5 +121,6 @@
     <orderEntry type="library" name="twitter-bootstrap" level="application" />
     <orderEntry type="library" name="jquery-3.3.1.slim" level="application" />
     <orderEntry type="library" name="bootstrap" level="application" />
+    <orderEntry type="library" name="jquery.dataTables" level="application" />
   </component>
 </module>

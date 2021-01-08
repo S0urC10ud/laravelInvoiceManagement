@@ -1,6 +1,14 @@
 @extends('app')
 @section('title','Invoice-List')
 
+@section('customScripts')
+    <script>
+        $(document).ready(function () {
+            $('#invoiceDataTable').DataTable();
+        });
+    </script>
+@endsection
+
 @section('customStyles')
     <style>
         th {
@@ -49,7 +57,8 @@
 @section('content')
 
     <a href="{{route('invoice.create')}}" class="btn btn-success" style="margin: 2rem;">Create new invoice</a>
-    <table>
+    <table id="invoiceDataTable">
+        <thead>
         <tr>
             <th>ID</th>
             <th>Name</th>
@@ -60,7 +69,8 @@
             <th>ClearingDate</th>
             <th>Actions</th>
         </tr>
-
+        </thead>
+        <tbody>
         @php
             $formatter = new NumberFormatter('de_DE',  NumberFormatter::CURRENCY)
         @endphp
@@ -85,5 +95,6 @@
                 </td>
             </tr>
         @endforeach
+        </tbody>
     </table>
 @endsection

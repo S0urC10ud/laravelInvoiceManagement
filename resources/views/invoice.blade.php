@@ -4,7 +4,51 @@
 @section('customScripts')
     <script>
         $(document).ready(function () {
-            $('#invoiceDataTable').DataTable();
+            $('#invoiceDataTable').DataTable(
+                {
+                    ajax: {
+                        "url": "{{ route("getInvoiceData") }}",
+                        "type": "GET"
+                    },
+                    columns: [
+                        {
+                            data: "id"
+                        },
+                        {
+                            data: "Name",
+                        },
+                        {
+                            data: "PriceNet"
+                        },
+                        {
+                            data: "PriceGross"
+                        },
+                        {
+                            data: "Vat"
+                        },
+                        {
+                            data: "UserClearing"
+                        },
+                        {
+                            data: "ClearingDate"
+                        },
+                        {
+                            render: function (data, type, row) {
+                                return `<a href="{{route('invoice.index')}}/${row.id}">
+                                    <button class="btn btn-outline-dark btn-sm" style="margin-bottom: 5px;">&#128269; Show</button>
+                                </a>
+                                <a href="{{route('invoice.index')}}/${row.id}/edit">
+                                    <button class="btn btn-outline-dark btn-sm" style="margin-bottom: 5px;">📝 Edit</button>
+                                </a>
+                                <button class="btn btn-outline-danger btn-sm" onclick="deleteEntry(${row.id})">🗑️ Delete</button>`
+                            },
+                            class: "dt-center"
+                        },
+                    ],
+                    order: [[0, 'asc']],
+                    autoWidth: false,
+                }
+            );
         });
     </script>
 @endsection
@@ -71,30 +115,6 @@
         </tr>
         </thead>
         <tbody>
-        @php
-            $formatter = new NumberFormatter('de_DE',  NumberFormatter::CURRENCY)
-        @endphp
-        @foreach ($invoiceData as $invoice)
-            <tr>
-                <td>{{$invoice->id}}</td>
-                <td>{{$invoice->Name}}</td>
-                <td>{{$formatter->formatCurrency($invoice->PriceNet,'EUR')}}</td>
-                <td>{{$formatter->formatCurrency($invoice->PriceGross,'EUR')}}</td>
-                <td>{{$formatter->formatCurrency($invoice->Vat,'EUR')}}</td>
-                <td>{{$invoice->UserClearing}}</td>
-                <td>{{$invoice->ClearingDate}}</td>
-                <td>
-                    <a href="{{route('invoice.show',$invoice->id)}}">
-                        <button class="btn btn-outline-dark btn-sm" style="margin-bottom: 5px;">&#128269; Show</button>
-                    </a>
-                    <a href="{{route('invoice.edit',$invoice->id)}}">
-                        <button class="btn btn-outline-dark btn-sm" style="margin-bottom: 5px;">📝 Edit</button>
-                    </a>
-                    <button class="btn btn-outline-danger btn-sm" onclick="deleteEntry({{$invoice->id}})">🗑️ Delete
-                    </button>
-                </td>
-            </tr>
-        @endforeach
         </tbody>
     </table>
 @endsection

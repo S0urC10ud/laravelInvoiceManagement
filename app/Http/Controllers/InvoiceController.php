@@ -25,7 +25,7 @@ class InvoiceController extends Controller
     {
         $invoiceData = Invoice::all();
 
-        return view('invoice')->with('invoiceData', $invoiceData);
+        return view('invoice');
     }
 
     /**
@@ -121,5 +121,11 @@ class InvoiceController extends Controller
     {
         $invoice->delete();
         return $this::index(); //oder redirect()->route('invoice')
+    }
+
+    public function InvoiceData(Request $request){
+        $invoices = Invoice::all();
+
+        return json_encode(array('data' => $invoices));
     }
 }

@@ -10,6 +10,11 @@
                 }
             });
 
+            $('#invoiceDataTable tfoot th').each(function () {
+                var title = $(this).text();
+                $(this).html('<input type="text" style="width: 12em" placeholder="Search ' + title + '" />');
+            });
+
             $('#invoiceDataTable').DataTable(
                 {
                     ajax: {
@@ -53,6 +58,24 @@
                     ],
                     order: [[0, 'asc']],
                     autoWidth: false,
+                    pageLength: 5,
+                    processing: true,
+                    serverSide: true,
+                    "language": {
+                        processing: '<div class="loader"></div>'
+                    },
+                    initComplete: function () {
+                        // Apply the search
+                        this.api().columns().every(function () {
+                            var activeColumn = this;
+
+                            $('input', this.footer()).on('keyup change clear', function () {
+                                if (activeColumn.search() !== this.value) {
+                                    activeColumn.search(this.value).draw();
+                                }
+                            });
+                        })
+                    }
                 }
             );
         });
@@ -60,48 +83,8 @@
 @endsection
 
 @section('customStyles')
-    <style>
-        th {
-            width: 200px;
-        }
+    <link rel="stylesheet" href="/css/invoiceIndex.css"/>
 
-        table {
-            border-collapse: collapse;
-            font-size: 0.9em;
-            font-family: sans-serif;
-            min-width: 400px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-            width: 100%;
-        }
-
-        table thead tr {
-            background-color: #009879;
-            color: #ffffff;
-            text-align: left;
-        }
-
-        table th, table td {
-            padding: 12px 15px;
-            text-align: center;
-        }
-
-        table tbody tr {
-            border-bottom: 1px solid #dddddd;
-        }
-
-        table tbody tr:nth-of-type(even) {
-            background-color: #f3f3f3;
-        }
-
-        table tbody tr:last-of-type {
-            border-bottom: 2px solid #009879;
-        }
-
-        table tbody tr.active-row {
-            font-weight: bold;
-            color: #009879;
-        }
-    </style>
 @endsection
 
 @section('content')
@@ -122,5 +105,17 @@
         </thead>
         <tbody>
         </tbody>
+        <tfoot>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>PriceNet</th>
+            <th>PriceGross</th>
+            <th>Vat</th>
+            <th>UserClearing</th>
+            <th>ClearingDate</th>
+            <th>Actions</th>
+        </tr>
+        </tfoot>
     </table>
 @endsection

@@ -124,8 +124,6 @@ class InvoiceController extends Controller
     }
 
     public function InvoiceData(Request $request){
-        $invoices = Invoice::all();
-
-        return json_encode(array('data' => $invoices));
+        return datatables()->of(Invoice::all())->make(true);
     }
 }

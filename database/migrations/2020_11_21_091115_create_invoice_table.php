@@ -19,7 +19,7 @@ class CreateInvoiceTable extends Migration
             $table->double("PriceNet");
             $table->double("PriceGross");
             $table->double("Vat");
-            $table->string("UserClearing")->default("unknown");
+            $table->string("UserClearing")->nullable();
             $table->dateTime("ClearingDate")->nullable();
             $table->timestamps();
         });

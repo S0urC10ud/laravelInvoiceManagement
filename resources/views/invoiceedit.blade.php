@@ -16,17 +16,24 @@
             <br>
             <div class="form-row">
                 @if(isset($invoice))
-                <div class="form-group col-md-4 mb-4">
-                    <label for="id">Id</label>
-                    <input name="id" maxlength="30" type="number" class="form-control"
-                           value="{{ isset($invoice) ? $invoice->id : "" }}"
-                           readonly>
-                </div>
+                    <div class="form-group col-md-4 mb-4">
+                        <label for="id">Id</label>
+                        <input name="id" maxlength="30" type="number" class="form-control"
+                               value="{{ isset($invoice) ? $invoice->id : "" }}"
+                               readonly>
+                    </div>
                 @endif
                 <div class="form-group {{isset($invoice) ? "col-md-8 mb-8" : "col-md-12 mb-12"}}">
                     <label for="name">Name</label>
                     <input name="name" maxlength="30" type="text" class="form-control"
                            value="{{ isset($invoice) ? $invoice->Name : "" }}">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-12 mb-12">
+                    <label for="userclearing">UserClearing</label>
+                    <input name="userclearing" maxlength="30" type="text" class="form-control"
+                           value="{{ isset($invoice) ? $invoice->UserClearing : "" }}">
                 </div>
             </div>
             <div class="form-row">
@@ -52,7 +59,8 @@
             <a href="{{route('invoice.index')}}">
                 <div class="btn btn-outline-danger float-left">Cancel</div>
             </a>
-            <input type="submit" class="btn btn-dark float-right" value="{{isset($invoice) ?  "Edit invoice" : "Create invoice"}}">
+            <input type="submit" class="btn btn-dark float-right"
+                   value="{{isset($invoice) ?  "Edit invoice" : "Create invoice"}}">
         </form>
     </div>
 @endsection

@@ -99,6 +99,7 @@ class InvoiceController extends Controller
         DB::beginTransaction();
         $invoice->Name = $request->name;
         $invoice->PriceNet = $request->pricenet;
+        $invoice->UserClearing = $request->userclearing;
         $invoice->PriceGross = $request->pricegross;
         $invoice->Vat = $request->vat;
 

@@ -2,6 +2,9 @@
 @section('title','Invoice-List')
 
 @section('customScripts')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"
+            integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ=="
+            crossorigin="anonymous"></script>
     <script>
         $(document).ready(function () {
             $.ajaxSetup({
@@ -15,7 +18,7 @@
                 $(this).html('<input type="text" style="width: 12em" placeholder="Search ' + title + '" />');
             });
 
-            $('#invoiceDataTable').DataTable(
+            let dataTable = $('#invoiceDataTable').DataTable(
                 {
                     ajax: {
                         "url": "{{ route("getInvoiceData") }}",
@@ -23,7 +26,10 @@
                     },
                     columns: [
                         {
-                            data: "id"
+                            data: "id",
+                            render: function (data, type, row) {
+                                return `<a href="{{route('invoice.index')}}/${row.id}/edit">${row.id}</a>`;
+                            }
                         },
                         {
                             data: "Name",
@@ -41,9 +47,14 @@
                             data: "UserClearing"
                         },
                         {
-                            data: "ClearingDate"
+                            data: "ClearingDate",
+                            render: function (data, type, row) {
+                                return moment(row.ClearingDate).format('DD.MM.yyyy');
+                            }
+
                         },
                         {
+                            data: "id",
                             render: function (data, type, row) {
                                 return `<a href="{{route('invoice.index')}}/${row.id}">
                                     <button class="btn btn-outline-dark btn-sm" style="margin-bottom: 5px;">&#128269; Show</button>
@@ -56,12 +67,21 @@
                             class: "dt-center"
                         },
                     ],
+                    columnDefs: [
+                        {
+                            "targets": '_all',
+                            "createdCell": function (td, cellData, rowData, row, col) {
+                                if (rowData.UserClearing === null)
+                                    $(td).css('background-color', '#ffa2a2');
+                            }
+                        },
+                    ],
                     order: [[0, 'asc']],
                     autoWidth: false,
                     pageLength: 5,
                     processing: true,
                     serverSide: true,
-                    "language": {
+                    language: {
                         processing: '<div class="loader"></div>'
                     },
                     initComplete: function () {
@@ -78,6 +98,31 @@
                     }
                 }
             );
+            $(function () {
+                $.contextMenu({
+                    selector: 'tr',
+                    trigger: 'right',
+                    callback: function (key, options) {
+                        var id = dataTable.row(options.$trigger).data().id;
+                        switch (key) {
+                            case 'delete':
+                                deleteEntry(id);
+                                break;
+                            case 'edit':
+                                window.location.href = `{{route('invoice.index')}}/${id}/edit`;
+                                break;
+                            case 'create':
+                                window.location.href = `{{route('invoice.create')}}`;
+                                break;
+                        }
+                    },
+                    items: {
+                        'delete': {name: 'Delete', icon: 'delete'},
+                        'create': {name: 'Create', icon: 'add'},
+                        'edit': {name: 'Edit', icon: 'edit'}
+                    }
+                });
+            });
         });
     </script>
 @endsection

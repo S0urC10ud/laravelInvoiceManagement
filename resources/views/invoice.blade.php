@@ -57,22 +57,22 @@
                             data: "id",
                             render: function (data, type, row) {
                                 return `<a href="{{route('invoice.index')}}/${row.id}">
-                                    <button class="btn btn-outline-dark btn-sm" style="margin-bottom: 5px;">&#128269; Show</button>
-                                </a>
-                                <a href="{{route('invoice.index')}}/${row.id}/edit">
-                                    <button class="btn btn-outline-dark btn-sm" style="margin-bottom: 5px;">📝 Edit</button>
-                                </a>
-                                <button class="btn btn-outline-danger btn-sm" onclick="deleteEntry(${row.id})">🗑️ Delete</button>`
+                                            <button class="btn btn-outline-dark btn-sm" style="margin-bottom: 5px;">&#128269; Show</button>
+                                        </a>
+                                        <a href="{{route('invoice.index')}}/${row.id}/edit">
+                                            <button class="btn btn-outline-dark btn-sm" style="margin-bottom: 5px;">📝 Edit</button>
+                                        </a>
+                                        <button class="btn btn-outline-danger btn-sm" onclick="deleteEntry(${row.id})">🗑️ Delete</button>`;
                             },
                             class: "dt-center"
                         },
                     ],
                     columnDefs: [
                         {
-                            "targets": '_all',
+                            "targets": "_all",
                             "createdCell": function (td, cellData, rowData, row, col) {
                                 if (rowData.UserClearing === null)
-                                    $(td).css('background-color', '#ffa2a2');
+                                    $(td).css("background-color", '#ffa2a2');
                             }
                         },
                     ],
@@ -129,7 +129,6 @@
 
 @section('customStyles')
     <link rel="stylesheet" href="/css/invoiceIndex.css"/>
-
 @endsection
 
 @section('content')
@@ -151,6 +150,7 @@
         <tbody>
         </tbody>
         <tfoot>
+        <!--Duplicated "headers" for search at the bottom:-->
         <tr>
             <th>ID</th>
             <th>Name</th>

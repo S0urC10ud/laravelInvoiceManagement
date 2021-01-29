@@ -55,6 +55,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.9.2/jquery.contextMenu.min.js"
             integrity="sha512-kvg/Lknti7OoAw0GqMBP8B+7cGHvp4M9O9V6nAYG91FZVDMW3Xkkq5qrdMhrXiawahqU7IZ5CNsY/wWy1PpGTQ=="
             crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/autonumeric@4.1.0"></script>
     @section('customScripts')
     @show
 
@@ -144,5 +145,16 @@
     <div class="text-center" style="color:#afafaf;">{{Carbon\Carbon::now()->format('d.m.Y')}} | <a
                 style="color: white;" href="{{route('imprint')}}">Legal Notice (Imprint)</a></div>
 </div>
+<script>
+    new AutoNumeric.multiple('.currency', {
+        digitGroupSeparator: '.',
+        decimalCharacter: ',',
+        decimalCharacterAlternative: '.',
+        currencySymbol: '\u202f€',
+        currencySymbolPlacement: AutoNumeric.options.currencySymbolPlacement.suffix,
+        roundingMethod: AutoNumeric.options.roundingMethod.halfUpSymmetric,
+        unformatOnSubmit: true
+    });
+</script>
 </body>
 </html>

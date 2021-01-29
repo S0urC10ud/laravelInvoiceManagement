@@ -39,19 +39,19 @@
             <div class="form-row">
                 <div class="form-group col-md-4 mb-4">
                     <label for="pricenet">PriceNet</label>
-                    <input name="pricenet" type="number" step="0.01" maxlength="30" class="form-control"
+                    <input name="pricenet" type="text" step="0.01" maxlength="30" class="form-control currency"
                            value="{{ isset($invoice) ? $invoice->PriceNet : "" }}">
                 </div>
 
                 <div class="form-group col-md-4 mb-4">
                     <label for="pricegross">PriceGross</label>
-                    <input name="pricegross" type="number" step="0.01" maxlength="30" class="form-control"
+                    <input name="pricegross" type="text" step="0.01" maxlength="30" class="form-control currency"
                            value="{{ isset($invoice) ? $invoice->PriceGross : "" }}">
                 </div>
 
                 <div class="form-group col-md-4 mb-4">
                     <label for="vat">Vat</label>
-                    <input name="vat" type="number" step="0.01" maxlength="30" class="form-control"
+                    <input name="vat" type="text" step="0.01" maxlength="30" class="form-control currency"
                            value="{{ isset($invoice) ? $invoice->Vat : "" }}">
                 </div>
             </div>

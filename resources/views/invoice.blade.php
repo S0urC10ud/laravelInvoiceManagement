@@ -6,12 +6,12 @@
             integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ=="
             crossorigin="anonymous"></script>
     <script>
-        
+
         function setUserClearing(id, UserClearingName) {
-           axios.put(`{{route('updateUserClearing')}}`,{id:id, UserClearing: UserClearingName})
-           .then(()=>dataTable.ajax.reload());
+            axios.put(`{{route('updateUserClearing')}}`, {id: id, UserClearing: UserClearingName})
+                .then(() => dataTable.ajax.reload());
         }
-        
+
         $(document).ready(function () {
             $.ajaxSetup({
                 headers: {
@@ -23,6 +23,10 @@
                 var title = $(this).text();
                 $(this).html('<input type="text" style="width: 12em" placeholder="Search ' + title + '" />');
             });
+
+            const currencyRenderer = function (data, type, row) {
+                return `<div class="currency">${data}</div>`;
+            }
 
             let dataTable = $('#invoiceDataTable').DataTable(
                 {
@@ -41,18 +45,21 @@
                             data: "Name",
                         },
                         {
-                            data: "PriceNet"
+                            data: "PriceNet",
+                            render: currencyRenderer
                         },
                         {
-                            data: "PriceGross"
+                            data: "PriceGross",
+                            render: currencyRenderer
                         },
                         {
-                            data: "Vat"
+                            data: "Vat",
+                            render: currencyRenderer
                         },
                         {
                             data: "UserClearing",
-                            render: function(data, type, row){
-                                if(data===null)
+                            render: function (data, type, row) {
+                                if (data === null)
                                     return `<div class="userClearingGroup">
                                                 <input type="value" id="userClearing-${row.id}"
                                                 onfocusin="$('#saveUserClearing-${row.id}').fadeIn().css('display','inline-block')"
@@ -112,6 +119,17 @@
                                 }
                             });
                         })
+                    },
+                    drawCallback: function (){
+                        new AutoNumeric.multiple('.currency', {
+                            digitGroupSeparator: '.',
+                            decimalCharacter: ',',
+                            decimalCharacterAlternative: '.',
+                            currencySymbol: '\u202f€',
+                            currencySymbolPlacement: AutoNumeric.options.currencySymbolPlacement.suffix,
+                            roundingMethod: AutoNumeric.options.roundingMethod.halfUpSymmetric,
+                            unformatOnSubmit: true
+                        });
                     }
                 }
             );

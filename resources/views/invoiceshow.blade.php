@@ -30,17 +30,17 @@
         <div class="row justify-content-between">
             <div class="form-group col-md-4 mb-4 listedShowElement">
                 PriceNet<br/>
-                <span>{{$formatter->formatCurrency($invoice->PriceNet,'EUR')}}</span>
+                <span class="currency">{{$invoice->PriceNet}}</span>
             </div>
 
             <div class="form-group col-md-4 mb-4 listedShowElement">
                 PriceGross<br/>
-                <span>{{$formatter->formatCurrency($invoice->PriceGross,'EUR')}}</span>
+                <span class="currency">{{$invoice->PriceGross}}</span>
             </div>
 
             <div class="form-group col-md-3 mb-3 listedShowElement">
                 VAT<br/>
-                <span>{{$formatter->formatCurrency($invoice->Vat,'EUR')}}</span>
+                <span class="currency">{{$invoice->Vat}}</span>
             </div>
         </div>
 

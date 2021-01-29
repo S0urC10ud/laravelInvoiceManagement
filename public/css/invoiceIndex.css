@@ -78,6 +78,13 @@ table {
     width: 100%;
 }
 
+.userClearingGroup{
+    width: 10rem;
+    margin-left: auto;
+    margin-right: auto;
+    display: inline-block;
+}
+
 table thead tr {
     background-color: #28a745;
     color: #ffffff;

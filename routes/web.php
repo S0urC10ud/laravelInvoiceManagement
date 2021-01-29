@@ -21,3 +21,4 @@ Route::get('/imprint', function () {
 
 Route::resource('invoice','App\Http\Controllers\InvoiceController'); // Achtung: APP groß
 Route::get('api/invoice-data','App\Http\Controllers\InvoiceController@InvoiceData')->name('getInvoiceData');
+Route::put('user-clearing','App\Http\Controllers\InvoiceController@UpdateUserClearing')->name('updateUserClearing');

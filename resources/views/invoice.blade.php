@@ -6,6 +6,12 @@
             integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ=="
             crossorigin="anonymous"></script>
     <script>
+        
+        function setUserClearing(id, UserClearingName) {
+           axios.put(`{{route('updateUserClearing')}}`,{id:id, UserClearing: UserClearingName})
+           .then(()=>dataTable.ajax.reload());
+        }
+        
         $(document).ready(function () {
             $.ajaxSetup({
                 headers: {
@@ -44,7 +50,18 @@
                             data: "Vat"
                         },
                         {
-                            data: "UserClearing"
+                            data: "UserClearing",
+                            render: function(data, type, row){
+                                if(data===null)
+                                    return `<div class="userClearingGroup">
+                                                <input type="value" id="userClearing-${row.id}"
+                                                onfocusin="$('#saveUserClearing-${row.id}').fadeIn().css('display','inline-block')"
+                                                onfocusout="$('#saveUserClearing-${row.id}').fadeOut()"/>
+                                                <div id="saveUserClearing-${row.id}" style="display: none; cursor:pointer;" onclick="setUserClearing(${row.id}, $('#userClearing-${row.id}').val());">💾</div>
+                                            </div>`;
+                                else
+                                    return data;
+                            }
                         },
                         {
                             data: "ClearingDate",
@@ -98,6 +115,9 @@
                     }
                 }
             );
+
+            window.dataTable = dataTable;
+
             $(function () {
                 $.contextMenu({
                     selector: 'tr',

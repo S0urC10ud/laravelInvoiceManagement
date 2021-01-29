@@ -124,7 +124,18 @@ class InvoiceController extends Controller
         return $this::index(); //oder redirect()->route('invoice')
     }
 
-    public function InvoiceData(Request $request){
+    public function InvoiceData(Request $request)
+    {
         return datatables()->of(Invoice::all())->make(true);
+    }
+
+    public function UpdateUserClearing(Request $request)
+    {
+        $invoice = Invoice::find($request->id);
+        $invoice->UserClearing = $request->UserClearing;
+        $invoice->save();
+
+        return response('Success', 200)
+            ->header('Content-Type', 'text/plain');
     }
 }

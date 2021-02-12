@@ -130,6 +130,9 @@
                             roundingMethod: AutoNumeric.options.roundingMethod.halfUpSymmetric,
                             unformatOnSubmit: true
                         });
+                        $(".userClearingGroup input").inputFilter(function (value) {
+                            return /^-?[a-zA-Zöüä\s\-.]*$/.test(value); // Dash for second firstname and dot for older styled names
+                        });
                     }
                 }
             );

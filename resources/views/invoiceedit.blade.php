@@ -7,31 +7,11 @@
 
 @section('customScripts')
     <script>
-
-        (function ($) {
-            $.fn.inputFilter = function (inputFilter) {
-                return this.on("input keydown keyup mousedown mouseup select contextmenu drop", function () {
-                    if (inputFilter(this.value)) {
-                        this.oldValue = this.value;
-                        this.oldSelectionStart = this.selectionStart;
-                        this.oldSelectionEnd = this.selectionEnd;
-                    } else if (this.hasOwnProperty("oldValue")) {
-                        this.value = this.oldValue;
-                        this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
-                    } else {
-                        this.value = "";
-                    }
-                });
-            };
-        }(jQuery));
-
-
         $(document).ready(() => {
             $("#userClearingInput, #nameInput").inputFilter(function (value) {
                 return /^-?[a-zA-Zöüä\s\-.]*$/.test(value); // Dash for second firstname and dot for older styled names
             });
         });
-
         //Number constraints are already applied by the Autonumeric-Library
     </script>
 @endsection
@@ -63,7 +43,7 @@
             <div class="form-row">
                 <div class="form-group col-md-12 mb-12">
                     <label for="userclearing">UserClearing</label>
-                    <input name="userclearing" id="userClearingInput" maxlength="30" type="text" class="form-control"
+                    <input id="userClearingInput" name="userclearing" maxlength="30" type="text" class="form-control"
                            value="{{ isset($invoice) ? $invoice->UserClearing : "" }}">
                 </div>
             </div>

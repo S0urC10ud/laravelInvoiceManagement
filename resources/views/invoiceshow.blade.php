@@ -10,11 +10,6 @@
 </style>
 @endsection
 @section('content')
-
-    @php
-        $formatter = new NumberFormatter('de_DE',  NumberFormatter::CURRENCY)
-    @endphp
-
     <div class="container pt-3" style="max-width: 40rem;">
         <br>
         <div class="row justify-content-between">

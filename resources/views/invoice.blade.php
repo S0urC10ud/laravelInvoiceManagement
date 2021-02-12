@@ -62,7 +62,7 @@
                             render: function (data, type, row) {
                                 if (data === null)
                                     return `<div class="userClearingGroup">
-                                                <input type="value" id="userClearing-${row.id}"
+                                                <input type="value" id="userClearing-${row.id}" placeholder="Not set"
                                                 onfocusin="$('#saveUserClearing-${row.id}').fadeIn().css('display','inline-block')"
                                                 onfocusout="$('#saveUserClearing-${row.id}').fadeOut()"/>
                                                 <div id="saveUserClearing-${row.id}" style="display: none; cursor:pointer;" onclick="setUserClearing(${row.id}, $('#userClearing-${row.id}').val());">💾</div>
@@ -138,7 +138,6 @@
                         if (usersClearing == null) {
                             axios.get("{{route('getUsersClearing')}}").then((result) => {
                                 usersClearing = result.data;
-                                console.log(usersClearing);
                                 $(".userClearingGroup input").autocomplete({
                                     source: usersClearing
                                 });

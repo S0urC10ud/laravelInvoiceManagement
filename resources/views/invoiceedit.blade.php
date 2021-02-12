@@ -11,6 +11,12 @@
             $("#userClearingInput, #nameInput").inputFilter(function (value) {
                 return /^-?[a-zA-Zöüä\s\-.]*$/.test(value); // Dash for second firstname and dot for older styled names
             });
+            axios.get("{{route('getUsersClearing')}}").then((result) => {
+                usersClearing = result.data;
+                $("#userClearingInput").autocomplete({
+                    source: usersClearing
+                });
+            });
         });
         //Number constraints are already applied by the Autonumeric-Library
     </script>

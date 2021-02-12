@@ -138,4 +138,10 @@ class InvoiceController extends Controller
         return response('Success', 200)
             ->header('Content-Type', 'text/plain');
     }
+
+    public function GetUsersClearing(Request $request)
+    {
+        $columnName = 'UserClearing';
+        return Invoice::whereNotNull($columnName)->get($columnName)->pluck($columnName)->toJson();
+    }
 }

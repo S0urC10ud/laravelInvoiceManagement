@@ -6,6 +6,7 @@
             integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ=="
             crossorigin="anonymous"></script>
     <script>
+        var usersClearing = null;
 
         function setUserClearing(id, UserClearingName) {
             axios.put(`{{route('updateUserClearing')}}`, {id: id, UserClearing: UserClearingName})
@@ -120,7 +121,7 @@
                             });
                         })
                     },
-                    drawCallback: function (){
+                    drawCallback: function () {
                         new AutoNumeric.multiple('.currency', {
                             digitGroupSeparator: '.',
                             decimalCharacter: ',',
@@ -131,8 +132,21 @@
                             unformatOnSubmit: true
                         });
                         $(".userClearingGroup input").inputFilter(function (value) {
-                            return /^-?[a-zA-Zöüä\s\-.]*$/.test(value); // Dash for second firstname and dot for older styled names
+                            return /^[a-zA-Zöüä\s\-.]*$/.test(value); // Dash for second firstname and dot for older styled names
                         });
+
+                        if (usersClearing == null) {
+                            axios.get("{{route('getUsersClearing')}}").then((result) => {
+                                usersClearing = result.data;
+                                console.log(usersClearing);
+                                $(".userClearingGroup input").autocomplete({
+                                    source: usersClearing
+                                });
+                            });
+                        } else
+                            $(".userClearingGroup input").autocomplete({
+                                source: usersClearing
+                            });
                     }
                 }
             );

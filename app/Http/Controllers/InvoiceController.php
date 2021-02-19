@@ -102,6 +102,7 @@ class InvoiceController extends Controller
         $invoice->UserClearing = $request->userclearing;
         $invoice->PriceGross = $request->pricegross;
         $invoice->Vat = $request->vat;
+        $invoice->ClearingDate = $request->clearingdate;
 
         if (Invoice::where("id", $invoice->id)->exists()) {
             $invoice->save();

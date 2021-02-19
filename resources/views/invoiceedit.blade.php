@@ -72,6 +72,13 @@
                            value="{{ isset($invoice) ? $invoice->Vat : "" }}">
                 </div>
             </div>
+            <div class="form-row">
+                <div class="form-group col-md-12 mb-12">
+                    <label for="clearingdate">Clearing-Date</label>
+                    <input name="clearingdate" type="date" class="form-control"
+                           value="{{ isset($invoice) ? \Carbon\Carbon::parse($invoice->ClearingDate)->format('Y-m-d') : "" }}">
+                </div>
+            </div>
 
             <a href="{{route('invoice.index')}}">
                 <div class="btn btn-outline-danger float-left">Cancel</div>

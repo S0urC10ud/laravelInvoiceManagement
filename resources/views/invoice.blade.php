@@ -7,10 +7,20 @@
             crossorigin="anonymous"></script>
     <script>
         var usersClearing = null;
+        var activeUserClearingID = null;
 
         function setUserClearing(id, UserClearingName) {
             axios.put(`{{route('updateUserClearing')}}`, {id: id, UserClearing: UserClearingName})
                 .then(() => dataTable.ajax.reload());
+        }
+
+        function displayUserModal(userClearingId, userClearingName) {
+            $('#userClearingModalLabel').text(`Change User Clearing from ${userClearingName} to:`);
+            $('#userClearingModalValue').val(userClearingName);
+            activeUserClearingID = userClearingId;
+            $('#userClearingModal').modal({
+                zIndex: 50
+            });
         }
 
         $(document).ready(function () {
@@ -68,13 +78,17 @@
                                                 <div id="saveUserClearing-${row.id}" style="display: none; cursor:pointer;" onclick="setUserClearing(${row.id}, $('#userClearing-${row.id}').val());">💾</div>
                                             </div>`;
                                 else
-                                    return data;
+                                    return `<a class="userModalClass" onclick="displayUserModal(${row.id},'${data}');">${data}</a>`;
                             }
                         },
                         {
                             data: "ClearingDate",
                             render: function (data, type, row) {
-                                return moment(row.ClearingDate).format('DD.MM.yyyy');
+                                let momentDate = moment(row.ClearingDate);
+                                if (!momentDate.isValid())
+                                    return "Date not set";
+
+                                return momentDate.format('DD.MM.yyyy');
                             }
 
                         },
@@ -98,6 +112,8 @@
                             "createdCell": function (td, cellData, rowData, row, col) {
                                 if (rowData.UserClearing === null)
                                     $(td).css("background-color", '#ffa2a2');
+                                else if (rowData.ClearingDate !== null)
+                                    $(td).css("background-color", '#baf3c6');
                             }
                         },
                     ],
@@ -135,17 +151,17 @@
                             return /^[a-zA-Zöüä\s\-.]*$/.test(value); // Dash for second firstname and dot for older styled names
                         });
 
-                        if (usersClearing == null) {
-                            axios.get("{{route('getUsersClearing')}}").then((result) => {
-                                usersClearing = result.data;
-                                $(".userClearingGroup input").autocomplete({
-                                    source: usersClearing
-                                });
-                            });
-                        } else
-                            $(".userClearingGroup input").autocomplete({
+                        // if (usersClearing == null) {
+                        axios.get("{{route('getUsersClearing')}}").then((result) => {
+                            usersClearing = result.data;
+                            $(".userClearingGroup input, #userClearingModalValue").autocomplete({
                                 source: usersClearing
                             });
+                        });
+                        // } else
+                        //     $(".userClearingGroup input, #userClearingModalValue").autocomplete({
+                        //         source: usersClearing
+                        //     });
                     }
                 }
             );
@@ -186,7 +202,28 @@
 @endsection
 
 @section('content')
-
+    <div class="modal fade" id="userClearingModal" tabindex="-1" role="dialog" aria-labelledby="userClearingModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="userClearingModalLabel"></h5>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <input type="value" id="userClearingModalValue" placeholder="Not set"/>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary"
+                            onclick="setUserClearing(activeUserClearingID, $('#userClearingModalValue').val());
+                                     $('#userClearingModal').modal('hide');">
+                        Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <a href="{{route('invoice.create')}}" class="btn btn-success" style="margin: 2rem;">Create new invoice</a>
     <table id="invoiceDataTable">
         <thead>

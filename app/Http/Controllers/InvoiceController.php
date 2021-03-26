@@ -145,4 +145,9 @@ class InvoiceController extends Controller
         $columnName = 'UserClearing';
         return Invoice::whereNotNull($columnName)->pluck($columnName)->jsonSerialize();
     }
+
+    public function GetAllInvoicesJSON(Request $request)
+    {
+        return Invoice::all()->jsonSerialize();
+    }
 }
